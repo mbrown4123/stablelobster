@@ -53,7 +53,7 @@ function LobsterTightrope({ status, className = '' }) {
 
         .lobster-video {
           width: auto;
-          height: 100px;
+          height: 125px;
           display: block;
           border-radius: 8px;
           object-fit: contain;

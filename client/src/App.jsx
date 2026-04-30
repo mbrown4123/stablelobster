@@ -154,34 +154,37 @@ function App() {
           onChange={setPlatform} 
         />
 
-        {/* Status Card */}
-        {status && (
-          <div className="mt-6">
-            <StatusCard 
-              status={status.status}
-              version={currentVersion}
-              issues={status.issues || []}
-            />
-          </div>
-        )}
+        {/* Combined Status and Voting Section */}
+        <div className="status-vote-row">
+          {/* Vote Buttons (Left) */}
+          {currentVersion && (
+            <div className="vote-section">
+              <VoteButtons 
+                versionId={currentVersion.id}
+                onSuccess={() => {
+                  fetchStatus(currentVersion.id)
+                  fetchVotes24h()
+                }}
+              />
+            </div>
+          )}
+
+          {/* Status Card (Right) */}
+          {status && (
+            <div className="status-section">
+              <StatusCard 
+                status={status.status}
+                version={currentVersion}
+                issues={status.issues || []}
+              />
+            </div>
+          )}
+        </div>
 
         {/* Lobster Tightrope */}
         {status && (
           <div className="mt-6">
             <LobsterTightrope status={status.status?.score ?? 0} />
-          </div>
-        )}
-
-        {/* Vote Buttons */}
-        {currentVersion && (
-          <div className="mt-6">
-            <VoteButtons 
-              versionId={currentVersion.id}
-              onSuccess={() => {
-                fetchStatus(currentVersion.id)
-                fetchVotes24h()
-              }}
-            />
           </div>
         )}
 

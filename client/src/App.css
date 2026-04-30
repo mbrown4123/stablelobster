@@ -23,6 +23,31 @@
   gap: 2rem;
 }
 
+/* Combined Status and Voting Row */
+.status-vote-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.status-vote-row .vote-section,
+.status-vote-row .status-section {
+  flex: 0 0 auto;
+}
+
+/* Responsive: stack on small screens */
+@media (max-width: 900px) {
+  .status-vote-row {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
 /* Card base */
 .card {
   background: var(--bg);

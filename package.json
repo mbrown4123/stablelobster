@@ -1,35 +1,13 @@
 {
-  "name": "stablelobster",
+  "name": "stablelobster-monorepo",
   "version": "1.0.0",
-  "description": "Ultra-premium, agent-driven crowd-sourced status platform for OpenClaw versions",
-  "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js",
-    "client": "npm run dev --prefix client",
-    "dev:all": "concurrently \"npm run dev\" \"npm run client\"",
-    "build": "npm run build --prefix client",
-    "deploy": "npm run build && node deploy/verify.js"
+    "build": "cd client && npm install && npm run build"
   },
   "dependencies": {
-    "axios": "^1.6.2",
-    "bcryptjs": "^2.4.3",
-    "compression": "^1.7.4",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.22.1",
-    "helmet": "^7.1.0",
-    "node-cron": "^3.0.2",
-    "rate-limiter-flexible": "^3.0.0",
-    "socket.io": "^4.8.3",
-    "sql.js": "^1.10.3",
-    "uuid": "^9.0.0"
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.2",
-    "nodemon": "^3.0.2"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "express": "^4.18.2",
+    "socket.io": "^4.6.0"
   }
 }

@@ -156,7 +156,18 @@ function App() {
 
         {/* Combined Status and Voting Section */}
         <div className="status-vote-row">
-          {/* Vote Buttons (Left) */}
+          {/* Status Card (Left) */}
+          {status && (
+            <div className="status-section">
+              <StatusCard 
+                status={status.status}
+                version={currentVersion}
+                issues={status.issues || []}
+              />
+            </div>
+          )}
+
+          {/* Vote Buttons (Right) */}
           {currentVersion && (
             <div className="vote-section">
               <VoteButtons 
@@ -165,17 +176,6 @@ function App() {
                   fetchStatus(currentVersion.id)
                   fetchVotes24h()
                 }}
-              />
-            </div>
-          )}
-
-          {/* Status Card (Right) */}
-          {status && (
-            <div className="status-section">
-              <StatusCard 
-                status={status.status}
-                version={currentVersion}
-                issues={status.issues || []}
               />
             </div>
           )}

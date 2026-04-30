@@ -36,6 +36,8 @@ function VersionList({ versions, currentVersion, onSelect, releaseType }) {
   
   // Use 3-column grid to fit 3 cards evenly
   const gridColumns = 3
+  
+  const seriesGroups = {}
   Object.entries(versions).forEach(([series, seriesVersions]) => {
     const nonNewVersions = seriesVersions.filter(v => !v.is_new)
     if (nonNewVersions.length > 0) {

@@ -15,7 +15,7 @@ const io = new Server(httpServer, {
 });
 
 // Mount the API routes
-app.use('/api', apiRoutes(io));
+app.use('/api', apiRoutes);
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'client/dist')));

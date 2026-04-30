@@ -38,9 +38,12 @@ function VersionList({ versions, currentVersion, onSelect, releaseType }) {
   // Use 3-column grid to fit 3 cards evenly
   const gridColumns = 3
   
+  // Get IDs of versions currently in the "New" section to exclude them from series lists
+  const newVersionIds = newVersions.map(v => v.id)
+  
   const seriesGroups = {}
   Object.entries(versions).forEach(([series, seriesVersions]) => {
-    const nonNewVersions = seriesVersions.filter(v => !v.is_new)
+    const nonNewVersions = seriesVersions.filter(v => !newVersionIds.includes(v.id))
     if (nonNewVersions.length > 0) {
       seriesGroups[series] = nonNewVersions
     }
@@ -48,7 +51,7 @@ function VersionList({ versions, currentVersion, onSelect, releaseType }) {
 
   const oldVersions = allVersions.filter(v => {
     const year = parseInt(v.series.split('.')[0])
-    return year < 2026 && !v.is_new
+    return year < 2026 && !newVersionIds.includes(v.id)
   })
 
   return (

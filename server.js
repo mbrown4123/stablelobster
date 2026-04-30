@@ -3,7 +3,6 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import apiRoutes from './src/routes/api.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,7 +17,10 @@ const io = new Server(httpServer, {
   }
 });
 
-// Mount the API routes (this handles /api/versions, /api/status, etc.)
+// Load API routes dynamically to handle CommonJS 'module.exports'
+const apiRoutes = (await import('./src/routes/api.js')).default;
+
+// Mount the API routes
 app.use('/api', apiRoutes(io));
 
 // Serve static files from the built React app

@@ -5,6 +5,7 @@ function LobsterTightrope({ status, className = '' }) {
 
   return (
     <div className={`lobster-container ${className}`}>
+      {/* SVG: Tightrope and supports only */}
       <svg viewBox="0 0 400 200" className="lobster-svg">
         {/* Tightrope */}
         <line x1="20" y1="100" x2="380" y2="100" stroke="var(--border-subtle)" strokeWidth="2" strokeLinecap="round" />
@@ -12,25 +13,22 @@ function LobsterTightrope({ status, className = '' }) {
         {/* Supports */}
         <line x1="20" y1="100" x2="20" y2="180" stroke="var(--border-subtle)" strokeWidth="2" strokeLinecap="round" />
         <line x1="380" y1="100" x2="380" y2="180" stroke="var(--border-subtle)" strokeWidth="2" strokeLinecap="round" />
-
-        {/* Lobster - replaced with conditional video */}
-        <g transform="translate(200, 100)">
-          <video
-            key={isSafe ? 'stable' : 'unstable'}
-            src={isSafe ? '/lobster-fallback.mp4' : '/lobster-unstable.mp4'}
-            autoPlay
-            loop
-            muted
-            playsInline
-            style={{
-              width: '70px',
-              height: 'auto',
-              transform: !isSafe ? 'rotate(35deg) translateY(40px)' : 'none',
-              filter: isSafe ? 'none' : 'grayscale(0.2)'
-            }}
-          />
-        </g>
       </svg>
+
+      {/* Video: Positioned absolutely over the tightrope */}
+      <div className="lobster-video-wrapper" style={{
+        transform: !isSafe ? 'rotate(35deg) translateY(40px)' : 'none'
+      }}>
+        <video
+          key={isSafe ? 'stable' : 'unstable'}
+          src={isSafe ? '/lobster-fallback.mp4' : '/lobster-unstable.mp4'}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="lobster-video"
+        />
+      </div>
 
       {/* Status indicator */}
       <div className="lobster-status">
@@ -62,6 +60,23 @@ function LobsterTightrope({ status, className = '' }) {
           width: 100%;
           max-width: 400px;
           height: auto;
+          display: block;
+        }
+
+        .lobster-video-wrapper {
+          position: relative;
+          top: -60px; /* Position above the tightrope line (which is at y=100 in 200px viewBox) */
+          left: 50%;
+          transform: translateX(-50%);
+          width: 70px;
+          height: auto;
+        }
+
+        .lobster-video {
+          width: 70px;
+          height: auto;
+          display: block;
+          border-radius: 8px;
         }
 
         .lobster-status {

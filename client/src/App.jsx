@@ -23,7 +23,6 @@ function App() {
   const [connected, setConnected] = useState(false)
   const [issues, setIssues] = useState([])
   const [releaseType, setReleaseType] = useState('major') // 'major' or 'beta'
-  const [showBetaVersions, setShowBetaVersions] = useState(false) // Show beta versions in list
 
   // Initialize WebSocket
   useEffect(() => {
@@ -149,8 +148,6 @@ function App() {
         connected={connected} 
         releaseType={releaseType}
         onReleaseTypeChange={setReleaseType}
-        showBeta={showBetaVersions}
-        onShowBetaChange={setShowBetaVersions}
       />
       
       <main className="main">
@@ -212,7 +209,6 @@ function App() {
             currentVersion={currentVersion}
             onSelect={setCurrentVersion}
             releaseType={releaseType}
-            showBeta={showBetaVersions}
           />
         </div>
       </main>

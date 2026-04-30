@@ -1,8 +1,6 @@
 import { useState } from 'react'
 
-function VersionList({ versions, currentVersion, onSelect, releaseType, showBeta }) {
-  const [expandedSeries, setExpandedSeries] = useState({})
-  const [showArchive, setShowArchive] = useState(false)
+function VersionList({ versions, currentVersion, onSelect, releaseType }) {
 
   const toggleSeries = (series) => {
     setExpandedSeries(prev => ({
@@ -11,9 +9,7 @@ function VersionList({ versions, currentVersion, onSelect, releaseType, showBeta
     }))
   }
 
-  const toggleArchive = () => {
-    setShowArchive(!showArchive)
-  }
+
 
   if (!versions || Object.keys(versions).length === 0) {
     return (
@@ -27,9 +23,7 @@ function VersionList({ versions, currentVersion, onSelect, releaseType, showBeta
   // Determine what we're showing
   const viewLabel = releaseType === 'beta' 
     ? 'Beta Releases' 
-    : showBeta 
-      ? 'Major + Beta Releases'
-      : 'Major Releases'
+    : 'Major Releases'
 
   const allVersions = Object.values(versions).flat()
   const newVersions = allVersions.filter(v => v.is_new)
@@ -51,22 +45,6 @@ function VersionList({ versions, currentVersion, onSelect, releaseType, showBeta
     <div className="version-list">
       <div className="list-header">
         <h2>{viewLabel}</h2>
-        {releaseType === 'major' && (
-          <div className="toggle-buttons">
-            <button 
-              className={`archive-toggle ${showArchive ? 'active' : ''}`}
-              onClick={toggleArchive}
-            >
-              {showArchive ? 'Hide Archive' : 'Show Archive'}
-            </button>
-            <button 
-              className={`beta-toggle ${showBeta ? 'active' : ''}`}
-              onClick={() => setShowBeta(!showBeta)}
-            >
-              {showBeta ? 'Hide Beta' : 'Show Beta'}
-            </button>
-          </div>
-        )}
       </div>
 
       {newVersions.length > 0 && (
@@ -144,57 +122,11 @@ function VersionList({ versions, currentVersion, onSelect, releaseType, showBeta
           margin: 0 auto;
         }
 
-        .list-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 1.75rem;
-        }
-
         .list-header h2 {
           margin: 0;
           font-size: 1.5rem;
           letter-spacing: -0.02em;
           color: var(--text-primary);
-        }
-
-        .toggle-buttons {
-          display: flex;
-          gap: 0.5rem;
-        }
-
-        .archive-toggle,
-        .beta-toggle {
-          padding: 0.5rem 1rem;
-          background: var(--surface-interactive);
-          border: 1px solid var(--border-subtle);
-          border-radius: 0.625rem;
-          cursor: pointer;
-          font-size: 0.875rem;
-          color: var(--text-secondary);
-          font-weight: 500;
-          transition: all 0.2s ease;
-        }
-
-        .archive-toggle:hover,
-        .beta-toggle:hover {
-          background: var(--surface-interactive-hover);
-          border-color: var(--border-accent);
-        }
-
-        .archive-toggle.active,
-        .beta-toggle.active {
-          background: var(--surface-coral-soft);
-          border-color: var(--coral-bright);
-          color: var(--text-primary);
-        }
-
-        .archive-toggle {
-          border-radius: 0.625rem 0 0 0.625rem;
-        }
-
-        .beta-toggle {
-          border-radius: 0 0.625rem 0.625rem 0;
         }
 
         .version-section {

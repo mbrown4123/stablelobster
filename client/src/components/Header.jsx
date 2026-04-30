@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-function Header({ connected, releaseType, onReleaseTypeChange, showBeta, onShowBetaChange }) {
+function Header({ connected, releaseType, onReleaseTypeChange }) {
   const [mounted, setMounted] = useState(false)
   const [theme, setTheme] = useState('dark')
 
@@ -63,19 +63,7 @@ function Header({ connected, releaseType, onReleaseTypeChange, showBeta, onShowB
             />
           </div>
 
-          {/* Show Beta Toggle */}
-          {releaseType === 'major' && (
-            <button
-              className="show-beta-toggle"
-              onClick={() => onShowBetaChange(!showBeta)}
-              title={showBeta ? 'Hide beta versions' : 'Show beta versions'}
-            >
-              <span className="toggle-icon">
-                {showBeta ? '👁️' : '👁️‍🗨️'}
-              </span>
-              <span className="toggle-label">{showBeta ? 'Hiding Beta' : 'Show Beta'}</span>
-            </button>
-          )}
+
 
           <div className="connection-status">
             <span className={`status-dot ${connected ? 'connected' : 'disconnected'}`} />
@@ -224,36 +212,6 @@ function Header({ connected, releaseType, onReleaseTypeChange, showBeta, onShowB
           left: calc(50% + 0px);
         }
 
-        /* Show Beta Toggle */
-        .show-beta-toggle {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.5rem 0.875rem;
-          background: var(--surface-interactive);
-          border: 1px solid var(--border-subtle);
-          border-radius: 0.625rem;
-          cursor: pointer;
-          font-size: 0.75rem;
-          font-weight: 600;
-          color: var(--text-secondary);
-          transition: all 0.2s ease;
-        }
-
-        .show-beta-toggle:hover {
-          background: var(--surface-interactive-hover);
-          border-color: var(--border-accent);
-          color: var(--text-primary);
-        }
-
-        .toggle-icon {
-          font-size: 0.875rem;
-        }
-
-        .toggle-label {
-          font-weight: 500;
-        }
-
         .title-section h1 {
           margin: 0 0 0.25rem 0;
           font-size: 1.875rem;
@@ -368,15 +326,6 @@ function Header({ connected, releaseType, onReleaseTypeChange, showBeta, onShowB
           .pill-tab {
             padding: 0.4rem 0.625rem;
             font-size: 0.75rem;
-          }
-
-          .show-beta-toggle {
-            padding: 0.375rem 0.625rem;
-            font-size: 0.6875rem;
-          }
-
-          .toggle-label {
-            display: none;
           }
         }
       `}</style>

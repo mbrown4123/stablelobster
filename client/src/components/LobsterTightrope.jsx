@@ -24,7 +24,7 @@ function LobsterTightrope({ status, className = '' }) {
           {isSafe ? '🟢' : '🔴'}
         </span>
         <span className="status-label">
-          {isSafe ? 'Balancing' : 'Fallen'}
+          {isSafe ? 'Stable' : 'Unstable'}
         </span>
         {status !== null && (
           <span className="status-score">

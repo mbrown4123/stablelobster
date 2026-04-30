@@ -187,6 +187,22 @@ function VoteButtons({ versionId, onSuccess }) {
           <div className="success-counter">
             Vote recorded at {new Date().toLocaleTimeString()}
           </div>
+          {changeCount > 0 && (
+            <div className="change-notice">
+              Changed {changeCount}/2 times today
+            </div>
+          )}
+          <button 
+            className="change-vote-btn" 
+            onClick={() => {
+              setSubmitted(false)
+              setSelectedStatus(null)
+              setSelectedCategory('')
+              setError(null)
+            }}
+          >
+            Change Vote
+          </button>
         </div>
       )}
 
@@ -412,6 +428,31 @@ function VoteButtons({ versionId, onSuccess }) {
           font-size: 0.75rem;
           color: var(--text-muted);
           font-weight: 500;
+        }
+
+        .change-notice {
+          margin-top: 0.75rem;
+          font-size: 0.75rem;
+          color: var(--text-secondary);
+          font-weight: 500;
+        }
+
+        .change-vote-btn {
+          margin-top: 1.25rem;
+          padding: 0.625rem 1.25rem;
+          background: var(--bg-elevated);
+          border: 1px solid var(--border-subtle);
+          border-radius: 0.5rem;
+          color: var(--text-primary);
+          font-size: 0.875rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .change-vote-btn:hover {
+          background: var(--surface-interactive-hover);
+          border-color: var(--border-accent);
         }
 
         @media (max-width: 640px) {

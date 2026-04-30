@@ -14,6 +14,9 @@ const io = new Server(httpServer, {
   }
 });
 
+// Attach io to global scope so api.js can access it via global.io
+global.io = io;
+
 // Mount the API routes
 app.use('/api', apiRoutes);
 

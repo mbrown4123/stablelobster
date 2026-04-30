@@ -78,20 +78,17 @@ function App() {
       const res = await fetch(`${API_URL}/api/versions?${params}`)
       const data = await res.json()
       
-      // Filter versions based on release type and beta filter
+      // Filter versions based on release type
       let filteredVersions = { ...data.versions }
       
       if (releaseType === 'major') {
-        if (!showBetaVersions) {
-          // Hide beta versions
-          Object.keys(filteredVersions).forEach(series => {
-            filteredVersions[series] = filteredVersions[series].filter(v => {
-              const versionStr = v.version_str?.toLowerCase() || ''
-              return !versionStr.includes('beta')
-            })
+        // Hide beta versions in major releases view
+        Object.keys(filteredVersions).forEach(series => {
+          filteredVersions[series] = filteredVersions[series].filter(v => {
+            const versionStr = v.version_str?.toLowerCase() || ''
+            return !versionStr.includes('beta')
           })
-        }
-        // If showBetaVersions is true, show all major versions including betas
+        })
       } else if (releaseType === 'beta') {
         // Only show beta versions
         Object.keys(filteredVersions).forEach(series => {

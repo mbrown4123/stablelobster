@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 function VersionList({ versions, currentVersion, onSelect, releaseType }) {
+  const [expandedSeries, setExpandedSeries] = useState({})
 
   const toggleSeries = (series) => {
     setExpandedSeries(prev => ({
@@ -99,7 +100,7 @@ function VersionList({ versions, currentVersion, onSelect, releaseType }) {
         )
       })}
 
-      {showArchive && oldVersions.length > 0 && (
+      {oldVersions.length > 0 && (
         <div className="archive-section">
           <h3 className="section-title">Historical Archive</h3>
           <div className="version-grid">

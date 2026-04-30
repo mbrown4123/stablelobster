@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { io } from 'socket.io-client'
 import Header from './components/Header'
-import HeroDashboard from './components/HeroDashboard'
+import StatusCard from './components/StatusCard'
+import LobsterTightrope from './components/LobsterTightrope'
+import VoteButtons from './components/VoteButtons'
 import VersionList from './components/VersionList'
 import VoteGraph from './components/VoteGraph'
 import IssueBreakdown from './components/IssueBreakdown'
@@ -158,17 +160,35 @@ function App() {
           onChange={setPlatform} 
         />
 
-        {/* Consolidated Hero Dashboard */}
+        {/* Status Card */}
         {status && (
-          <HeroDashboard 
-            status={status}
-            version={status.version}
-            issues={issues}
-            onVoteSuccess={() => {
-              fetchStatus(currentVersion?.id)
-              fetchVotes24h()
-            }}
-          />
+          <div className="mt-6">
+            <StatusCard 
+              status={status.status}
+              version={currentVersion}
+              issues={status.issues || []}
+            />
+          </div>
+        )}
+
+        {/* Lobster Tightrope */}
+        {status && (
+          <div className="mt-6">
+            <LobsterTightrope status={status.status?.score ?? 0} />
+          </div>
+        )}
+
+        {/* Vote Buttons */}
+        {currentVersion && (
+          <div className="mt-6">
+            <VoteButtons 
+              versionId={currentVersion.id}
+              onSuccess={() => {
+                fetchStatus(currentVersion.id)
+                fetchVotes24h()
+              }}
+            />
+          </div>
         )}
 
         {/* 24h Vote Graph */}
@@ -180,7 +200,7 @@ function App() {
 
         {/* Issue Breakdown */}
         {issues.length > 0 && (
-          <div className="mt-4">
+          <div className="mt-6">
             <IssueBreakdown issues={issues} />
           </div>
         )}

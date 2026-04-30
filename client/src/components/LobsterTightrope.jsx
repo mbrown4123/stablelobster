@@ -46,16 +46,17 @@ function LobsterTightrope({ status, className = '' }) {
 
         .lobster-video-wrapper {
           position: relative;
-          width: 140px;
+          width: auto;
           height: auto;
           margin: 0 auto;
         }
 
         .lobster-video {
-          width: 100%;
-          height: auto;
+          width: auto;
+          height: 90px;
           display: block;
           border-radius: 8px;
+          object-fit: contain;
         }
 
         .lobster-status {

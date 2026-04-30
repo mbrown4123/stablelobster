@@ -30,8 +30,8 @@ function PlatformTabs({ current, onChange }) {
           margin-bottom: 2rem;
           width: 100%;
           max-width: 1000px;
-          margin-left: auto;
-          margin-right: auto;
+          margin: 0 auto 2rem;
+          text-align: center;
         }
 
         .tabs-container {
@@ -44,6 +44,9 @@ function PlatformTabs({ current, onChange }) {
           scrollbar-width: thin;
           border: 1px solid var(--border-subtle);
           position: relative;
+          justify-content: center;
+          margin: 0 auto;
+          max-width: 100%;
         }
 
         .tabs-container::-webkit-scrollbar {
@@ -56,11 +59,13 @@ function PlatformTabs({ current, onChange }) {
         }
 
         .tab {
-          flex: 0 0 auto;
+          flex: 1;
+          min-width: 0;
           display: flex;
           align-items: center;
+          justify-content: center;
           gap: 0.5rem;
-          padding: 0.625rem 1rem;
+          padding: 0.75rem 1.25rem;
           border: none;
           background: transparent;
           border-radius: 0.625rem;

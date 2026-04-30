@@ -13,31 +13,21 @@ function LobsterTightrope({ status, className = '' }) {
         <line x1="20" y1="100" x2="20" y2="180" stroke="var(--border-subtle)" strokeWidth="2" strokeLinecap="round" />
         <line x1="380" y1="100" x2="380" y2="180" stroke="var(--border-subtle)" strokeWidth="2" strokeLinecap="round" />
 
-        {/* Lobster - flat, minimal design */}
-        <g transform={`translate(200, 100) ${!isSafe ? 'rotate(35) translateY(40)' : ''}`}>
-          {/* Body */}
-          <ellipse cx="0" cy="-5" rx="24" ry="14" fill="var(--coral-bright)" />
-          
-          {/* Head */}
-          <circle cx="20" cy="-10" r="12" fill="var(--coral-bright)" />
-          
-          {/* Eyes */}
-          <circle cx="25" cy="-16" r="3" fill="#050810" />
-          <circle cx="26" cy="-17" r="1.5" fill="#00e5cc" />
-          
-          {/* Antennae */}
-          <path d="M 16 -18 Q 10 -30 4 -38" stroke="var(--coral-bright)" strokeWidth="2" fill="none" strokeLinecap="round" />
-          <path d="M 28 -18 Q 34 -30 40 -38" stroke="var(--coral-bright)" strokeWidth="2" fill="none" strokeLinecap="round" />
-          
-          {/* Claws */}
-          <path d="M -12 -5 Q -24 -12 -30 -20" stroke="var(--coral-bright)" strokeWidth="3" fill="none" strokeLinecap="round" />
-          <path d="M 8 -5 Q 20 -12 26 -20" stroke="var(--coral-bright)" strokeWidth="3" fill="none" strokeLinecap="round" />
-          
-          {/* Legs */}
-          <path d="M -10 5 Q -14 15 -18 20" stroke="var(--coral-bright)" strokeWidth="2" fill="none" strokeLinecap="round" />
-          <path d="M -3 5 Q -6 15 -9 20" stroke="var(--coral-bright)" strokeWidth="2" fill="none" strokeLinecap="round" />
-          <path d="M 4 5 Q 6 15 9 20" stroke="var(--coral-bright)" strokeWidth="2" fill="none" strokeLinecap="round" />
-          <path d="M 11 5 Q 14 15 18 20" stroke="var(--coral-bright)" strokeWidth="2" fill="none" strokeLinecap="round" />
+        {/* Lobster - replaced with video */}
+        <g transform="translate(200, 100)">
+          <video
+            src="/lobster-fallback.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{
+              width: '70px',
+              height: 'auto',
+              transform: !isSafe ? 'rotate(35deg) translateY(40px)' : 'none',
+              filter: isSafe ? 'none' : 'grayscale(0.2)' // Optional: slightly dim if fallen
+            }}
+          />
         </g>
       </svg>
 

@@ -13,10 +13,10 @@ function LobsterTightrope({ status, className = '' }) {
         <line x1="20" y1="100" x2="20" y2="180" stroke="var(--border-subtle)" strokeWidth="2" strokeLinecap="round" />
         <line x1="380" y1="100" x2="380" y2="180" stroke="var(--border-subtle)" strokeWidth="2" strokeLinecap="round" />
 
-        {/* Lobster - replaced with video */}
+        {/* Lobster - replaced with conditional video */}
         <g transform="translate(200, 100)">
           <video
-            src="/lobster-fallback.mp4"
+            src={isSafe ? '/lobster-fallback.mp4' : '/lobster-unstable.mp4'}
             autoPlay
             loop
             muted
@@ -25,7 +25,7 @@ function LobsterTightrope({ status, className = '' }) {
               width: '70px',
               height: 'auto',
               transform: !isSafe ? 'rotate(35deg) translateY(40px)' : 'none',
-              filter: isSafe ? 'none' : 'grayscale(0.2)' // Optional: slightly dim if fallen
+              filter: isSafe ? 'none' : 'grayscale(0.2)'
             }}
           />
         </g>

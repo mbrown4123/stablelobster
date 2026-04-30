@@ -197,8 +197,8 @@ function Header({ connected, releaseType, onReleaseTypeChange }) {
         .pill-indicator {
           position: absolute;
           top: 0.375rem;
-          height: calc(100% - 0.75rem);
-          width: calc(50% - 0.375rem);
+          bottom: 0.375rem;
+          width: calc(50% - 0.1875rem);
           background: var(--coral-bright);
           border-radius: 0.625rem;
           transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1);

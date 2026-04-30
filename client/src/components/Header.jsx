@@ -58,9 +58,6 @@ function Header({ connected, releaseType, onReleaseTypeChange }) {
             >
               Beta
             </button>
-            <div 
-              className={`pill-indicator ${releaseType === 'major' ? 'left' : 'right'}`}
-            />
           </div>
 
 
@@ -192,18 +189,12 @@ function Header({ connected, releaseType, onReleaseTypeChange }) {
 
         .pill-tab.active {
           color: white;
+          background: var(--coral-bright);
+          box-shadow: 0 4px 12px color-mix(in srgb, var(--coral-bright) 30%, transparent);
         }
 
-        .pill-indicator {
-          position: absolute;
-          top: 0.375rem;
-          bottom: 0.375rem;
-          width: calc(50% - 0.5625rem);
-          background: var(--coral-bright);
-          border-radius: 0.625rem;
-          transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-          z-index: 0;
-          box-shadow: 0 4px 12px color-mix(in srgb, var(--coral-bright) 30%, transparent);
+        .pill-tab:hover:not(.active) {
+          background: var(--surface-interactive-hover);
         }
 
         .pill-indicator.left {

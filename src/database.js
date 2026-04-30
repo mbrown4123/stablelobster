@@ -23,8 +23,10 @@ async function initDB() {
 
   if (existingData) {
     db = new SQL.Database(existingData);
+  global.db = db;
   } else {
     db = new SQL.Database();
+  global.db = db;
     createTables();
   seedData();
     saveDB();
@@ -34,7 +36,7 @@ async function initDB() {
 }
 
 function createTables() {
-  db.run(`
+  global.db.run(`
     CREATE TABLE IF NOT EXISTS versions (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       version_str TEXT UNIQUE NOT NULL,
@@ -46,7 +48,7 @@ function createTables() {
     );
   `);
 
-  db.run(`
+  global.db.run(`
     CREATE TABLE IF NOT EXISTS votes (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       version_id INTEGER NOT NULL,
@@ -66,7 +68,7 @@ function createTables() {
     );
   `);
 
-  db.run(`
+  global.db.run(`
     CREATE TABLE IF NOT EXISTS agents (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       install_id_hash TEXT UNIQUE NOT NULL,
@@ -79,7 +81,7 @@ function createTables() {
     );
   `);
 
-  db.run(`
+  global.db.run(`
     CREATE TABLE IF NOT EXISTS issues (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       version_id INTEGER NOT NULL,
@@ -92,12 +94,12 @@ function createTables() {
   `);
 
   // Create indexes for performance
-  db.run('CREATE INDEX IF NOT EXISTS idx_votes_version ON votes(version_id);');
-  db.run('CREATE INDEX IF NOT EXISTS idx_votes_source ON votes(source);');
-  db.run('CREATE INDEX IF NOT EXISTS idx_votes_status ON votes(status);');
-  db.run('CREATE INDEX IF NOT EXISTS idx_votes_created_at ON votes(created_at);');
-  db.run('CREATE INDEX IF NOT EXISTS idx_versions_series ON versions(series);');
-  db.run('CREATE INDEX IF NOT EXISTS idx_agents_install_id ON agents(install_id_hash);');
+  global.db.run('CREATE INDEX IF NOT EXISTS idx_votes_version ON votes(version_id);');
+  global.db.run('CREATE INDEX IF NOT EXISTS idx_votes_source ON votes(source);');
+  global.db.run('CREATE INDEX IF NOT EXISTS idx_votes_status ON votes(status);');
+  global.db.run('CREATE INDEX IF NOT EXISTS idx_votes_created_at ON votes(created_at);');
+  global.db.run('CREATE INDEX IF NOT EXISTS idx_versions_series ON versions(series);');
+  global.db.run('CREATE INDEX IF NOT EXISTS idx_agents_install_id ON agents(install_id_hash);');
 }
 
 function saveDB() {
@@ -127,7 +129,7 @@ function hashIP(ip) {
 
 // Database operations
 function getAllVersions() {
-  const result = db.exec('SELECT * FROM versions ORDER BY release_date DESC;');
+  const result = global.db.exec('SELECT * FROM versions ORDER BY release_date DESC;');
   if (result.length === 0) return [];
   
   const columns = result[0].columns;
@@ -141,7 +143,7 @@ function getAllVersions() {
 }
 
 function getVersionById(id) {
-  const stmt = db.prepare('SELECT * FROM versions WHERE id = ?;');
+  const stmt = global.db.prepare('SELECT * FROM versions WHERE id = ?;');
   stmt.bind([id]);
   if (stmt.step()) {
     const row = stmt.getAsObject();
@@ -156,7 +158,7 @@ function getOrCreateVersion(versionStr, series, releaseDate, description = null,
   let version = getVersionByString(versionStr);
   if (version) return version;
 
-  db.run(
+  global.db.run(
     'INSERT INTO versions (version_str, series, release_date, description, html_url) VALUES (?, ?, ?, ?, ?);',
     [versionStr, series, releaseDate, description, htmlUrl]
   );
@@ -165,7 +167,7 @@ function getOrCreateVersion(versionStr, series, releaseDate, description = null,
 }
 
 function getVersionByString(versionStr) {
-  const stmt = db.prepare('SELECT * FROM versions WHERE version_str = ?;');
+  const stmt = global.db.prepare('SELECT * FROM versions WHERE version_str = ?;');
   stmt.bind([versionStr]);
   if (stmt.step()) {
     const row = stmt.getAsObject();
@@ -213,7 +215,7 @@ function addVote(voteData) {
   const ipHashSql = ipHash ? `'${ipHash}'` : 'NULL';
   const payloadSignatureSql = payload_signature ? `'${payload_signature}'` : 'NULL';
 
-  db.run(
+  global.db.run(
     `INSERT INTO votes (version_id, source, status, category, os, node_version, error_tail, install_id_hash, session_token, ip_hash, payload_signature)
      VALUES (${version_id}, '${source}', '${status}', ${categorySql}, ${osSql}, ${nodeVersionSql}, ${errorTailSql}, ${installIdHashSql}, ${sessionTokenSql}, ${ipHashSql}, ${payloadSignatureSql});`
   );
@@ -225,13 +227,13 @@ function addVote(voteData) {
     );
     
     if (agentExists.length > 0 && agentExists[0].values.length > 0) {
-      db.run(
+      global.db.run(
         `UPDATE agents SET last_version_id = ${version_id}, last_status = '${status}', 
          last_vote_at = CURRENT_TIMESTAMP, total_votes = total_votes + 1
          WHERE install_id_hash = '${installIdHash}';`
       );
     } else {
-      db.run(
+      global.db.run(
         `INSERT INTO agents (install_id_hash, last_version_id, last_status, total_votes)
          VALUES ('${installIdHash}', ${version_id}, '${status}', 1);`
       );
@@ -245,12 +247,12 @@ function addVote(voteData) {
     );
     
     if (issueExists.length > 0 && issueExists[0].values.length > 0) {
-      db.run(
+      global.db.run(
         `UPDATE issues SET count = count + 1, last_reported_at = CURRENT_TIMESTAMP
          WHERE version_id = ${version_id} AND category = '${category}';`
       );
     } else {
-      db.run(
+      global.db.run(
         `INSERT INTO issues (version_id, category, count) VALUES (${version_id}, '${category}', 1);`
       );
     }
@@ -339,7 +341,7 @@ function getIssueBreakdown(versionId) {
 }
 
 function getAllVotes(limit = 100, offset = 0) {
-  const result = db.exec(
+  const result = global.db.exec(
     `SELECT votes.*, versions.version_str 
      FROM votes 
      JOIN versions ON votes.version_id = versions.id 
@@ -370,8 +372,8 @@ function exportToCSV() {
 }
 
 function deleteAllVotes() {
-  db.run('DELETE FROM votes;');
-  db.run('DELETE FROM issues;');
+  global.db.run('DELETE FROM votes;');
+  global.db.run('DELETE FROM issues;');
   saveDB();
   return { success: true };
 }

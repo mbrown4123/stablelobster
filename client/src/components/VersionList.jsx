@@ -28,13 +28,14 @@ function VersionList({ versions, currentVersion, onSelect, releaseType }) {
 
   const allVersions = Object.values(versions).flat()
   
-  // Filter new versions: exclude betas, sort by date desc, take top 4
+  // Filter new versions: exclude betas, sort by date desc, take top 3
   const newVersions = allVersions
     .filter(v => v.is_new && !v.version_str?.toLowerCase().includes('beta'))
     .sort((a, b) => new Date(b.release_date) - new Date(a.release_date))
-    .slice(0, 4)
+    .slice(0, 3)
   
-  const seriesGroups = {}
+  // Use 3-column grid to fit 3 cards evenly
+  const gridColumns = 3
   Object.entries(versions).forEach(([series, seriesVersions]) => {
     const nonNewVersions = seriesVersions.filter(v => !v.is_new)
     if (nonNewVersions.length > 0) {
@@ -157,7 +158,7 @@ function VersionList({ versions, currentVersion, onSelect, releaseType }) {
 
         .version-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 1rem;
         }
 

@@ -182,6 +182,8 @@ function Header({ connected, releaseType, onReleaseTypeChange }) {
           color: var(--text-secondary);
           transition: all 0.2s ease;
           white-space: nowrap;
+          flex: 1;
+          text-align: center;
         }
 
         .pill-tab:hover {

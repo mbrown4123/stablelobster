@@ -28,11 +28,12 @@ function VersionList({ versions, currentVersion, onSelect, releaseType }) {
 
   const allVersions = Object.values(versions).flat()
   
-  // Filter new versions: exclude betas, sort by date desc, take top 3
+  // Filter versions: exclude betas, sort by date desc, take top 3
   const newVersions = allVersions
-    .filter(v => v.is_new && !v.version_str?.toLowerCase().includes('beta'))
+    .filter(v => !v.version_str?.toLowerCase().includes('beta'))
     .sort((a, b) => new Date(b.release_date) - new Date(a.release_date))
     .slice(0, 3)
+    .map(v => ({ ...v, is_new: true })) // Force flag for display purposes
   
   // Use 3-column grid to fit 3 cards evenly
   const gridColumns = 3

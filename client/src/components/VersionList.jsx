@@ -28,23 +28,22 @@ function VersionList({ versions, currentVersion, onSelect, releaseType }) {
 
   const allVersions = Object.values(versions).flat()
   
-  // Find the most recent non-beta version (by release_date)
-  const nonBetaVersions = allVersions.filter(v => !v.version_str?.toLowerCase().includes('beta'))
-  const latestNonBetaVersion = nonBetaVersions.length > 0 
-    ? nonBetaVersions.sort((a, b) => new Date(b.release_date) - new Date(a.release_date))[0]
-    : null
-  const latestNonBetaVersionId = latestNonBetaVersion?.id
+  // Filter new versions: exclude betas, keep only non-beta new versions
+  const newVersions = allVersions.filter(v => 
+    v.is_new && !v.version_str?.toLowerCase().includes('beta')
+  )
   
   const seriesGroups = {}
   Object.entries(versions).forEach(([series, seriesVersions]) => {
-    if (seriesVersions.length > 0) {
-      seriesGroups[series] = seriesVersions
+    const nonNewVersions = seriesVersions.filter(v => !v.is_new)
+    if (nonNewVersions.length > 0) {
+      seriesGroups[series] = nonNewVersions
     }
   })
 
   const oldVersions = allVersions.filter(v => {
     const year = parseInt(v.series.split('.')[0])
-    return year < 2026
+    return year < 2026 && !v.is_new
   })
 
   return (
@@ -53,7 +52,25 @@ function VersionList({ versions, currentVersion, onSelect, releaseType }) {
         <h2>{viewLabel}</h2>
       </div>
 
-      {/* No separate "New Releases" section - badge shown only on the single newest non-beta version */}
+      {newVersions.length > 0 && (
+        <div className="version-section">
+          <h3 className="section-title">
+            <span className="fire">🔥</span> New Releases
+          </h3>
+          <div className="version-grid">
+            {newVersions.map(version => (
+              <VersionCard
+                key={version.id}
+                version={version}
+                isSelected={currentVersion?.id === version.id}
+                onClick={() => onSelect(version)}
+                isLatestNonBeta={version.is_new}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
       {Object.entries(seriesGroups).map(([series, seriesVersions], index) => {
         const isExpanded = expandedSeries[series] !== false
 
@@ -80,7 +97,7 @@ function VersionList({ versions, currentVersion, onSelect, releaseType }) {
                       version={version}
                       isSelected={currentVersion?.id === version.id}
                       onClick={() => onSelect(version)}
-                      isLatestNonBeta={version.id === latestNonBetaVersionId}
+                      isLatestNonBeta={false}
                     />
                   ))}
               </div>
@@ -99,7 +116,7 @@ function VersionList({ versions, currentVersion, onSelect, releaseType }) {
                 version={version}
                 isSelected={currentVersion?.id === version.id}
                 onClick={() => onSelect(version)}
-                isLatestNonBeta={version.id === latestNonBetaVersionId}
+                isLatestNonBeta={false}
               />
             ))}
           </div>

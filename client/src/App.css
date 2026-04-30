@@ -47,7 +47,7 @@
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  min-width: 320px; /* Match typical VoteButtons width */
+  width: 340px; /* Fixed width for both vote section and tightrope */
 }
 
 .status-vote-row .vote-section {
@@ -55,17 +55,15 @@
   width: 100%;
 }
 
-/* Tightrope constrained to match VoteButtons width */
+/* Tightrope matches the right-column width exactly */
 .tightrope-section {
   flex: 0 0 auto;
   width: 100%;
-  max-width: 320px;
 }
 
 .tightrope-section .lobster-tightrope {
   width: 100% !important;
-  transform: scale(0.85); /* Slightly shrink if needed, or remove if 320px is exact */
-  transform-origin: top center;
+  max-width: none !important;
 }
 
 /* Responsive: stack everything on small screens */

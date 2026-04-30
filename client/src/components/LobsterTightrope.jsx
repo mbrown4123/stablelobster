@@ -5,10 +5,8 @@ function LobsterTightrope({ status, className = '' }) {
 
   return (
     <div className={`lobster-container ${className}`}>
-      {/* Video only: centered and positioned */}
-      <div className="lobster-video-wrapper" style={{
-        transform: !isSafe ? 'rotate(35deg) translateY(40px)' : 'none'
-      }}>
+      {/* Video only: centered, always straight */}
+      <div className="lobster-video-wrapper">
         <video
           key={isSafe ? 'stable' : 'unstable'}
           src={isSafe ? '/lobster-fallback.mp4' : '/lobster-unstable.mp4'}

@@ -17,8 +17,8 @@ const io = new Server(httpServer, {
   }
 });
 
-// Load API routes dynamically to handle CommonJS 'module.exports'
-const apiRoutes = (await import('./src/routes/api.js')).default;
+// Load API routes (now a .cjs file, so we use default import)
+const apiRoutes = (await import('./src/routes/api.cjs')).default;
 
 // Mount the API routes
 app.use('/api', apiRoutes(io));

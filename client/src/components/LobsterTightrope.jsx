@@ -5,17 +5,7 @@ function LobsterTightrope({ status, className = '' }) {
 
   return (
     <div className={`lobster-container ${className}`}>
-      {/* SVG: Tightrope and supports only */}
-      <svg viewBox="0 0 400 200" className="lobster-svg">
-        {/* Tightrope */}
-        <line x1="20" y1="100" x2="380" y2="100" stroke="var(--border-subtle)" strokeWidth="2" strokeLinecap="round" />
-        
-        {/* Supports */}
-        <line x1="20" y1="100" x2="20" y2="180" stroke="var(--border-subtle)" strokeWidth="2" strokeLinecap="round" />
-        <line x1="380" y1="100" x2="380" y2="180" stroke="var(--border-subtle)" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-
-      {/* Video: Positioned absolutely over the tightrope */}
+      {/* Video only: centered and positioned */}
       <div className="lobster-video-wrapper" style={{
         transform: !isSafe ? 'rotate(35deg) translateY(40px)' : 'none'
       }}>
@@ -56,24 +46,15 @@ function LobsterTightrope({ status, className = '' }) {
           border-radius: 1rem;
         }
 
-        .lobster-svg {
-          width: 100%;
-          max-width: 400px;
-          height: auto;
-          display: block;
-        }
-
         .lobster-video-wrapper {
           position: relative;
-          top: -60px; /* Position above the tightrope line (which is at y=100 in 200px viewBox) */
-          left: 50%;
-          transform: translateX(-50%);
           width: 70px;
           height: auto;
+          margin: 0 auto;
         }
 
         .lobster-video {
-          width: 70px;
+          width: 100%;
           height: auto;
           display: block;
           border-radius: 8px;

@@ -35,16 +35,47 @@
   width: 100%;
 }
 
-.status-vote-row .vote-section,
 .status-vote-row .status-section {
-  flex: 0 0 auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Responsive: stack on small screens */
+/* Right column: Votes stacked on top of Tightrope */
+.right-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  min-width: 320px; /* Match typical VoteButtons width */
+}
+
+.status-vote-row .vote-section {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+/* Tightrope constrained to match VoteButtons width */
+.tightrope-section {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 320px;
+}
+
+.tightrope-section .lobster-tightrope {
+  width: 100% !important;
+  transform: scale(0.85); /* Slightly shrink if needed, or remove if 320px is exact */
+  transform-origin: top center;
+}
+
+/* Responsive: stack everything on small screens */
 @media (max-width: 900px) {
   .status-vote-row {
     flex-direction: column;
     align-items: center;
+  }
+  .right-column {
+    min-width: 100%;
   }
 }
 

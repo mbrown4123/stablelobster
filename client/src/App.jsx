@@ -167,26 +167,29 @@ function App() {
             </div>
           )}
 
-          {/* Vote Buttons (Right) */}
-          {currentVersion && (
-            <div className="vote-section">
-              <VoteButtons 
-                versionId={currentVersion.id}
-                onSuccess={() => {
-                  fetchStatus(currentVersion.id)
-                  fetchVotes24h()
-                }}
-              />
-            </div>
-          )}
-        </div>
+          {/* Right Column: Votes + Tightrope */}
+          <div className="right-column">
+            {/* Vote Buttons */}
+            {currentVersion && (
+              <div className="vote-section">
+                <VoteButtons 
+                  versionId={currentVersion.id}
+                  onSuccess={() => {
+                    fetchStatus(currentVersion.id)
+                    fetchVotes24h()
+                  }}
+                />
+              </div>
+            )}
 
-        {/* Lobster Tightrope */}
-        {status && (
-          <div className="mt-6">
-            <LobsterTightrope status={status.status?.score ?? 0} />
+            {/* Lobster Tightrope (Shrunk to match VoteButtons width) */}
+            {status && (
+              <div className="tightrope-section">
+                <LobsterTightrope status={status.status?.score ?? 0} />
+              </div>
+            )}
           </div>
-        )}
+        </div>
 
         {/* 24h Vote Graph */}
         {votes24h.length > 0 && (

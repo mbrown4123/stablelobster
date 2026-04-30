@@ -3,6 +3,7 @@ const { createServer } = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
 const apiRoutes = require('./src/routes/api.js');
+const { initDB } = require('./src/database.js');
 
 const app = express();
 const httpServer = createServer(app);
@@ -14,7 +15,7 @@ const io = new Server(httpServer, {
   }
 });
 
-// Attach io to global scope so api.js can access it via global.io
+// Attach io to global scope
 global.io = io;
 
 // Mount the API routes
@@ -30,7 +31,21 @@ app.get('*', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-httpServer.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`API + WebSocket available`);
-});
+// Initialize database BEFORE starting the server
+async function startServer() {
+  try {
+    console.log("Initializing database...");
+    await initDB(); // Wait for DB to be ready
+    console.log("Database initialized successfully.");
+    
+    httpServer.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+      console.log(`API + WebSocket available`);
+    });
+  } catch (err) {
+    console.error("Failed to initialize database:", err);
+    process.exit(1); // Stop if DB fails
+  }
+}
+
+startServer();

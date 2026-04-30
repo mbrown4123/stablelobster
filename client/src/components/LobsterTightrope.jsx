@@ -16,6 +16,7 @@ function LobsterTightrope({ status, className = '' }) {
         {/* Lobster - replaced with conditional video */}
         <g transform="translate(200, 100)">
           <video
+            key={isSafe ? 'stable' : 'unstable'}
             src={isSafe ? '/lobster-fallback.mp4' : '/lobster-unstable.mp4'}
             autoPlay
             loop

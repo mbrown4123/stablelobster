@@ -3,6 +3,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import apiRoutes from './src/routes/api.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,9 +13,13 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
     origin: "*",
-    methods: ["GET", "POST"]
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
+
+// Mount the API routes (this handles /api/versions, /api/status, etc.)
+app.use('/api', apiRoutes(io));
 
 // Serve static files from the built React app
 app.use(express.static(path.join(__dirname, 'client/dist')));

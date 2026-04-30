@@ -28,10 +28,11 @@ function VersionList({ versions, currentVersion, onSelect, releaseType }) {
 
   const allVersions = Object.values(versions).flat()
   
-  // Filter new versions: exclude betas, keep only non-beta new versions
-  const newVersions = allVersions.filter(v => 
-    v.is_new && !v.version_str?.toLowerCase().includes('beta')
-  )
+  // Filter new versions: exclude betas, sort by date desc, take top 4
+  const newVersions = allVersions
+    .filter(v => v.is_new && !v.version_str?.toLowerCase().includes('beta'))
+    .sort((a, b) => new Date(b.release_date) - new Date(a.release_date))
+    .slice(0, 4)
   
   const seriesGroups = {}
   Object.entries(versions).forEach(([series, seriesVersions]) => {
@@ -156,7 +157,7 @@ function VersionList({ versions, currentVersion, onSelect, releaseType }) {
 
         .version-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+          grid-template-columns: repeat(4, 1fr);
           gap: 1rem;
         }
 

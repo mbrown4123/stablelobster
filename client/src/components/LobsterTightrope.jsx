@@ -9,7 +9,7 @@ function LobsterTightrope({ status, className = '' }) {
       <div className="lobster-video-wrapper">
         <video
           key={isSafe ? 'stable' : 'unstable'}
-          src={isSafe ? '/lobster-fallback.mp4' : '/lobster-unstable.mp4'}
+          src={isSafe ? '/lobster-stable.mp4' : '/lobster-unstable.mp4'}
           autoPlay
           loop
           muted

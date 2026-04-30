@@ -11,18 +11,13 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: "*", // Allow all for now. Lock this down later for production!
+    origin: "*",
     methods: ["GET", "POST"]
   }
 });
 
 // Serve static files from the built React app
-// IMPORTANT: Run 'npm run build' in client/ first
 app.use(express.static(path.join(__dirname, 'client/dist')));
-
-// Your API routes go here (or import them from ./routes/api.js)
-// Example:
-// app.use('/api', apiRoutes);
 
 // Handle React routing: return index.html for any unknown routes
 app.get('*', (req, res) => {
@@ -32,6 +27,6 @@ app.get('*', (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 httpServer.listen(PORT, () => {
-  console.log(\`Server running on port \${PORT}\`);
-  console.log(\`API + WebSocket available\`);
+  console.log(`Server running on port ${PORT}`);
+  console.log(`API + WebSocket available`);
 });

@@ -28,7 +28,6 @@ async function initDB() {
     db = new SQL.Database();
   global.db = db;
     createTables();
-  seedData();
     saveDB();
   }
 

@@ -2,7 +2,7 @@ function PlatformTabs({ current, onChange }) {
   const platforms = [
     { id: 'global', label: 'Global', icon: '🌍' },
     { id: 'linux', label: 'Linux', icon: '🐧' },
-    { id: 'macos', label: 'macOS', icon: '' },
+    { id: 'macos', label: 'macOS', icon: '🍎' },
     { id: 'windows', label: 'Windows', icon: '🪟' },
     { id: 'docker', label: 'Docker', icon: '🐳' }
   ]

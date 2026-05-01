@@ -1,0 +1,29 @@
+[Unit]
+Description=StableLobster Server
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/stablelobster
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=DB_PATH=/var/www/stablelobster/data/stablelobster.db
+Environment=INSTALL_ID_SALT=your_production_salt_here
+Environment=ADMIN_PASSWORD_HASH=your_admin_hash_here
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=stablelobster
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/www/stablelobster/data
+
+[Install]
+WantedBy=multi-user.target
